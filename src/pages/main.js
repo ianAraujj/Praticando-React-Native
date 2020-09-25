@@ -1,14 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 
-// import { Container } from './styles';
+import { styles } from '../styles/styles';
+
+function alerta(text) {
+    alert("Voce digitou: " + text);
+}
 
 const Main = () => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>
-                Página Principal  - Rota 01 - Inicial!!
-            </Text>
+        <View style={styles.container}>
+            <View>
+                <TextInput placeholder="Adicionar" style={{ height: Platform.OS == 'android' ? 40 : 20 }}/>
+            </View>
         </View>
     );
 }
