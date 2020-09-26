@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RectButton } from 'react-native-gesture-handler';
-import { Keyboard } from 'react-native';
+import { Keyboard, ActivityIndicator } from 'react-native';
 
 import { styles } from '../styles/styles';
 import api from '../services/api'
@@ -12,6 +12,18 @@ export default class Main extends Component {
     state = {
         usuarios: [],
         novoUsuario: "",
+        loading: false
+    }
+
+
+    buscarUsuario = (usuario) => {
+        const usuarios = this.state.usuarios;
+        for (var i = 0; i < usuarios.length; i++) {
+            if (usuarios[i].login == usuario) {
+                return usuarios[i];
+            }
+        }
+        return false;
     }
 
     adicionarNovoUsuario = async () => {
@@ -19,30 +31,36 @@ export default class Main extends Component {
 
         try {
 
+            this.setState({ loading: true });
+
             const response = await api.get(`/users/${novoUsuario}`);
-            const status = response.status;
 
-            const data = {
-                login: response.data.login,
-                name: response.data.name,
-                avatar: response.data.avatar_url,
-                bio: response.data.bio
+            const usuario = response.data.login;
+
+            if (this.buscarUsuario(usuario) != false) {
+                alert(usuario + ' já foi adicionado !');
+            } else {
+                const data = {
+                    login: usuario,
+                    name: response.data.name,
+                    avatar: response.data.avatar_url,
+                    bio: response.data.bio
+                }
+
+                var usuarios = this.state.usuarios;
+                usuarios.push(data);
+                this.setState({
+                    usuarios: usuarios,
+                    newUser: "",
+                });
             }
-
-            var usuarios = this.state.usuarios;
-            usuarios.push(data);
-            this.setState({
-                usuarios: usuarios,
-                newUser: ""
-            });
-
-            alert(data.bio);
-
         }
         catch (e) {
+            //alert(e);
             alert("Usuário Não Encontrado");
         }
 
+        this.setState({ loading: false })
         Keyboard.dismiss();
 
     }
@@ -51,11 +69,21 @@ export default class Main extends Component {
 
     render() {
 
+        const { loading } = this.state;
+
         const renderItemUser = ({ item }) => (
             <View style={styles.card}>
-                <Image source={{uri: item.avatar}} style={styles.imagemAvatar}/>
-                <Text>Nome: {item.name}</Text>
-                <Text>Bio: {item.bio}</Text>
+                <View style={styles.containerImagemAvatar}>
+                    <Image source={{ uri: item.avatar }} style={styles.imagemAvatar} />
+                </View>
+                <Text style={styles.nomeUsuario}>{item.name}</Text>
+                <Text style={styles.bioUsuario} numberOfLines={2} >{item.bio}</Text>
+                <RectButton style={styles.botaoCard}>
+                    <View style={{ paddingVertical: 2 }}>
+                        <Text style={{ color: '#FDFEFE' }}>VER PERFIL</Text>
+                    </View>
+                </RectButton>
+                <View style={styles.separador} />
             </View>
         );
 
@@ -72,12 +100,13 @@ export default class Main extends Component {
                     </View>
 
                     <RectButton style={styles.botao} onPress={() => this.adicionarNovoUsuario()}>
-                        <Icon name="add" size={30} color="#FDFEFE" />
+                        {loading ? (<ActivityIndicator color='#FDFEFE' style={{marginHorizontal: 5}} />) :
+                            (<Icon name="add" size={30} color="#FDFEFE" />)}
                     </RectButton>
                 </View>
                 <View style={styles.separador} />
                 <FlatList data={this.state.usuarios} keyExtractor={(item) => item.login}
-                    renderItem={renderItemUser} />
+                    renderItem={renderItemUser} style={styles.listaUsuario} />
             </View >
         );
     }
