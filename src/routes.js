@@ -22,18 +22,25 @@ function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        
-        <Stack.Screen name="Início" component={Main} 
-            options={{
-                headerTitleAlign: 'center', headerStyle:{backgroundColor: '#E74C3C'},
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                },
-            }}/>
 
-        <Stack.Screen name="Perfil" component={User} />
-      
+        <Stack.Screen name="Adicionar Usuário" component={Main}
+          options={{
+            headerTitleAlign: 'center', headerStyle: { backgroundColor: '#E74C3C' },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} />
+
+        <Stack.Screen name="Perfil" component={User}
+          options={{
+            headerTitleAlign: 'center', headerStyle: { backgroundColor: '#E74C3C' },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

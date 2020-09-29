@@ -45,6 +45,11 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F2F3F4',
         borderRadius: 6
     },
+    cardPerfil:{
+        backgroundColor: '#F2F3F4',
+        borderRadius: 6,
+        marginTop: 35
+    },
     containerImagemAvatar:{
         flex: 1,
         justifyContent: 'center',
@@ -55,6 +60,15 @@ export const styles = StyleSheet.create({
         height: 64,
         width: 64,
         borderRadius: 32
+    },
+    imagemPerfil:{
+        backgroundColor: '#F4F6F6',
+        height: 100,
+        width: 100,
+        borderRadius: 50
+    },
+    containerNome:{
+        marginTop: 50
     },
     nomeUsuario:{
         fontSize: 21,

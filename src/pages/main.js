@@ -3,17 +3,43 @@ import { View, Text, TextInput, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RectButton } from 'react-native-gesture-handler';
 import { Keyboard, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { styles } from '../styles/styles';
 import api from '../services/api'
 
 export default class Main extends Component {
 
+
     state = {
         usuarios: [],
         novoUsuario: "",
         loading: false
     }
+
+    async componentDidMount() {
+        const usuarios = await AsyncStorage.getItem('usuarios');
+
+        if (usuarios) {
+            this.setState({ usuarios: JSON.parse(usuarios) });
+        }
+
+    }
+
+    async store(usuarios) {
+        AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
+    }
+
+    /*
+    componentDidUpdate(_, prevState){
+
+        const usuarios = this.state.usuarios;
+
+        if(prevState.usuarios != usuarios){
+            AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
+        }
+    }
+    */
 
 
     buscarUsuario = (usuario) => {
@@ -53,6 +79,8 @@ export default class Main extends Component {
                     usuarios: usuarios,
                     newUser: "",
                 });
+
+                this.store(usuarios);
             }
         }
         catch (e) {
@@ -63,6 +91,10 @@ export default class Main extends Component {
         this.setState({ loading: false })
         Keyboard.dismiss();
 
+    }
+
+    verPerfil = (item) => {
+        this.props.navigation.navigate('Perfil', { item });
     }
 
 
@@ -78,7 +110,7 @@ export default class Main extends Component {
                 </View>
                 <Text style={styles.nomeUsuario}>{item.name}</Text>
                 <Text style={styles.bioUsuario} numberOfLines={2} >{item.bio}</Text>
-                <RectButton style={styles.botaoCard}>
+                <RectButton style={styles.botaoCard} onPress={() => this.verPerfil(item)}>
                     <View style={{ paddingVertical: 2 }}>
                         <Text style={{ color: '#FDFEFE' }}>VER PERFIL</Text>
                     </View>
@@ -100,7 +132,7 @@ export default class Main extends Component {
                     </View>
 
                     <RectButton style={styles.botao} onPress={() => this.adicionarNovoUsuario()}>
-                        {loading ? (<ActivityIndicator color='#FDFEFE' style={{marginHorizontal: 5}} />) :
+                        {loading ? (<ActivityIndicator color='#FDFEFE' style={{ marginHorizontal: 5 }} />) :
                             (<Icon name="add" size={30} color="#FDFEFE" />)}
                     </RectButton>
                 </View>
@@ -111,3 +143,4 @@ export default class Main extends Component {
         );
     }
 }
+
