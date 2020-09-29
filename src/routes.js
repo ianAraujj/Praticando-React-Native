@@ -39,7 +39,7 @@ function Routes() {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-          }} />
+          }}/>
 
       </Stack.Navigator>
     </NavigationContainer>

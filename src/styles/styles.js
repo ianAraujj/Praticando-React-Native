@@ -43,7 +43,14 @@ export const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingTop: 10,
         backgroundColor: '#F2F3F4',
-        borderRadius: 6
+        borderRadius: 6,
+    },
+    cardRepo:{
+        paddingBottom: 10,
+        paddingTop: 10,
+        backgroundColor: '#D7DBDD',
+        borderRadius: 6,
+        flexDirection: 'row'
     },
     cardPerfil:{
         backgroundColor: '#F2F3F4',
@@ -54,6 +61,12 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    info:{
+        flex: 1,
+        flexDirection: 'column',
+        marginLeft: 15,
+        marginRight: 10
     },
     imagemAvatar:{
         backgroundColor: '#F4F6F6',
@@ -67,12 +80,29 @@ export const styles = StyleSheet.create({
         width: 100,
         borderRadius: 50
     },
+    imagemOwner:{
+        backgroundColor: '#F4F6F6',
+        height: 48,
+        width: 48,
+        borderRadius: 24,
+        marginLeft: 20
+    },
     containerNome:{
         marginTop: 50
     },
     nomeUsuario:{
         fontSize: 21,
         fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    nomeRepo:{
+        fontSize: 15,
+        fontWeight: 'bold',
+        textAlign: "center"
+    },
+    nomeOwner:{
+        fontSize: 13,
+        color: '#ABB2B9',
         textAlign: 'center'
     },
     bioUsuario: {
